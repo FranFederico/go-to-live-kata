@@ -1,0 +1,43 @@
+---
+- name: Configure WordPress
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install MySQL client
+      apt:
+        name: mysql-client
+        state: present
+
+    - name: Install PHP and required modules
+      apt:
+        name: ['php', 'libapache2-mod-php', 'php-mysql']
+        state: present
+
+    - name: Download and extract WordPress
+      unarchive:
+        src: https://wordpress.org/latest.tar.gz
+        dest: /var/www/html/
+        remote_src: yes
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Configure WordPress database
+      mysql_db:
+        name: my_database
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Configure WordPress database user
+      mysql_user:
+        name: my_user
+        password: my_password
+        priv: '*.*:ALL'
+        host: localhost
+        login_unix_socket: /var/run/mysqld/mysqld.sock
