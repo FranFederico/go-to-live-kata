@@ -34,8 +34,8 @@ Per eseguire il playbook Ansible, puoi seguire questi passaggi:
 
 4. Apri un terminale o un prompt dei comandi e dirigiti alla directory in cui si trova il file del playbook.
 
-5. Esegui il playbook utilizzando il comando "ansible-playbook", specificando il file del playbook e il file di inventario: "ansible-playbook -i inventory playbook.yml".
+5. Esegui il playbook utilizzando il comando "ansible-playbook", specificando il file del playbook e il file di inventory: "ansible-playbook -i inventory playbook.yml".
 
 
-Ansible si connetterà agli host di destinazione elencati nel file di inventario ed eseguirà le attività definite nel playbook.
+Ansible si connetterà agli host di destinazione elencati nel file di inventory ed eseguirà le attività definite nel playbook.
 
