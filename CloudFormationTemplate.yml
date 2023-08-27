@@ -12,7 +12,6 @@ Parameters:
     Type: String
     Default: "latest"
 
-
 Resources:
   VPC:
     Type: AWS::EC2::VPC
