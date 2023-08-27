@@ -1,0 +1,135 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  UbuntuVersion:
+    Description: Ubuntu Linux version
+    Type: String
+    Default: "14.04"
+
+  WordpressVersion:
+    Description: WordPress version
+    Type: String
+    Default: "latest"
+
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      Tags:
+        - Key: Name
+          Value: MyVPC
+
+  Subnet-1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: us-east-1a
+      Tags:
+        - Key: Name
+          Value: MySubnet1
+
+
+  Subnet-2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: us-east-1b
+      Tags:
+        - Key: Name
+          Value: MySubnet2
+
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: "ami-000b3a073fc20e415"    #Ubuntu Linux 14.04 x64 
+      InstanceType: t2.micro
+      KeyName: my-key-pair
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP and SSH access
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+MyAutoScalingGroup:
+  Type: AWS::AutoScaling::AutoScalingGroup
+  Properties:
+    AvailabilityZones:
+      - !Ref 'AvailabilityZone'
+    LaunchConfigurationName: "MyLaunchConfig"
+    MinSize: 2
+    MaxSize: 10
+    DesiredCapacity: 4
+    HealthCheckType: EC2
+    HealthCheckGracePeriod: 300                        #in secondi
+   
+
+MyLoadBalancer:
+  Type: AWS::ElasticLoadBalancing::LoadBalancer
+  Properties:
+    Listeners:
+      - LoadBalancerPort: 80
+        InstancePort: 8080 
+        Protocol: HTTP 
+    AvailabilityZones:
+      - !Ref 'Subnet-1'
+      - !Ref 'Subnet-2'
+    Subnets:
+      - !Ref 'MySubnet1'
+      - !Ref 'MySubnet2'
+
+MyLoadBalancerAttachment:
+  Type: AWS::AutoScaling::AutoScalingGroup
+  Properties:
+    AutoScalingGroupName: !Ref 'MyAutoScalingGroup'
+    LoadBalancerNames:
+      - !Ref 'MyLoadBalancer'
+
+  ElasticBeanstalkApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: MyApplication
+
+  ElasticBeanstalkEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      ApplicationName: !Ref ElasticBeanstalkApplication
+      EnvironmentName: MyEnvironment
+      SolutionStackName: 64bit Amazon Linux 2 v5.4.4 running PHP 7.4
+
+  AnsibleInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: "ami-000b3a073fc20e415"
+      InstanceType: t2.micro
+      KeyName: MyKeyPair
+      EC2Id: !Ref EC2Instance
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update
+          apt-get install -y python3-pip
+          pip3 install ansible
+
+Outputs:
+  ApplicationURL:
+    Value: !Sub http://${ElasticBeanstalkEnvironment.EndpointURL}
