@@ -24,7 +24,7 @@ ________________________________________________________________________________
 
 Per eseguire il playbook Ansible, puoi seguire questi passaggi:
 
-1. Assicurati di avere Ansible installato sul tuo sistema. Puoi installarlo utilizzando il gestore pacchetti per il tuo sistema operativo o utilizzando il comando "pip installa ansible".
+1. Assicurati di avere Ansible installato sul tuo sistema. Puoi installarlo utilizzando il gestore pacchetti per il tuo sistema operativo o utilizzando il comando "pip install ansible".
     
 
 2. Crea un file che elenca gli host di destinazione su cui desideri eseguire il playbook. Tale file è in genere denominato "inventory" e può essere in formato INI o YAML.
