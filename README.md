@@ -1,28 +1,22 @@
 Go to live! kata
 ==================================
 
-Contained in this repo, there are some instructions for a new application that will go live in the next month!
+Per creare lo stesso ambiente su un altro account, segui queste istruzioni passo passo:
 
-You will need to:
+1. Configura il nuovo account AWS: crea un nuovo account AWS se non lo hai già fatto. Assicurati di disporre delle autorizzazioni e delle credenziali di accesso necessarie per eseguire i passaggi seguenti.
 
-1. Fork this repository.
+2. Crea un nuovo stack CloudFormation: accedi al servizio AWS CloudFormation nel nuovo account e fai clic su "Crea stack".
 
-2. Automate the creation of the infrastructure and the setup of the application.
+3. Carica il template CloudFormation: scegli il file denominato "CloudFormationTemplate.yml" utilizzato per creare l'ambiente e caricalo nel nuovo stack, oppure copia ed incolla il codice YAML.
 
-   You have only these instructions:
+4. Specifica i dettagli dello stack: fornisci un nome per lo stack, inserendo eventuali parametri o tag. Esamina il template e i valori dei parametri per assicurarti che siano corretti.
 
-   2.1 It works on Ubuntu Linux 14.04 x64
+5. Configura le opzioni dello stack: specifica eventuali opzioni aggiuntive, come ruoli IAM, notifiche o comportamento di rollback. Modifica queste impostazioni in base ai tuoi requisiti e alla configurazione dell'account.
 
-   2.2 It's based on the last version of WordPress (it will be more useful if we can parameterize the version)
+6. Esamina e crea lo stack: esamina la configurazione dello stack e assicurati che tutto sia corretto. Clicca su "Crea stack" per avviare il processo di creazione.
 
-   2.3 You can choose Apache, Nginx or whatever you want
+7. Monitora l'avanzamento della creazione dello stack: una volta avviata la creazione dello stack, controlla l'avanzamento nella console AWS CloudFormation. Potrebbe essere necessario del tempo per il provisioning completo delle risorse.
 
-   For any other issues or question you will have to ask to the developers. In this case please ask us without problems :)
+8. Testa l'ambiente: una volta completata la creazione dello stack, testa l'ambiente per assicurarsi che funzioni come previsto. Accedi all'endpoint del sistema di bilanciamento del carico e verifica che le istanze vengano aumentate e ridotte in base alle regole configurate.
 
-3. Once deployed, the application should be secure, fast and stable. Assume that the machine is running on the public Internet and should be hardened and locked down.
-
-4. Make any assumptions that you need to. This is an opportunity to showcase your skills, so if you want to, implement the deployment process with any additional features, tools or techniques you'd like to.
-
-5. We are evaluating solutions based on the architecture and quality of the deployment. Show us just how beautiful, clean and pragmatic your code can be.
-
-6. Once your solution is ready, please send us the link of your project.
+Seguendo questi passaggi, puoi replicare lo stesso ambiente su un altro account AWS utilizzando AWS CloudFormation. Ricordati di rivedere e modificare eventuali configurazioni o autorizzazioni specifiche dell'account, se necessario.
