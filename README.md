@@ -1,6 +1,9 @@
 Go to live! kata
 ==================================
 
+
+## CloudFormation ##
+
 Per creare lo stesso ambiente su un altro account, segui queste istruzioni passo passo:
 
 1. Configura il nuovo account AWS: crea un nuovo account AWS se non lo hai già fatto. Assicurati di disporre delle autorizzazioni e delle credenziali di accesso necessarie per eseguire i passaggi seguenti.
@@ -21,6 +24,9 @@ Per creare lo stesso ambiente su un altro account, segui queste istruzioni passo
 
 Seguendo questi passaggi, puoi replicare lo stesso ambiente su un altro account AWS utilizzando AWS CloudFormation. Ricordati di rivedere e modificare eventuali configurazioni o autorizzazioni specifiche dell'account, se necessario.
 __________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+## Ansible ##
 
 Per eseguire il playbook Ansible, puoi seguire questi passaggi:
 
